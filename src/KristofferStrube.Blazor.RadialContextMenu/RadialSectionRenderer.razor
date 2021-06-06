@@ -1,0 +1,9 @@
+﻿<path d="@RadialSection.D" @ref=RadialSection.ElementReference @oncontextmenu:preventDefault="true" @onclick="() => RadialSection.OnClick.Invoke()"></path>
+<text x="@RadialSection.TextPosition.x" y="@RadialSection.TextPosition.y" dominant-baseline="middle" text-anchor="middle" style="pointer-events:none;font-weight:700;">
+	@RadialSection.Text
+</text>
+
+@code {
+	[Parameter]
+	public RadialSection RadialSection { get; set; }
+}

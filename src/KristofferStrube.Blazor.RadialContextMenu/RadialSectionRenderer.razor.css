@@ -1,0 +1,10 @@
+﻿path {
+	fill:darkgrey;
+	stroke:lightgrey;
+	stroke-width:2;
+}
+
+path:hover {
+	stroke-width:4;
+	fill:silver;
+}

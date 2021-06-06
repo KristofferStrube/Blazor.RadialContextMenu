@@ -1,4 +1,4 @@
-﻿<path d="@RadialSection.D" @ref=RadialSection.ElementReference @oncontextmenu:preventDefault="true" @onclick="() => RadialSection.OnClick.Invoke()"></path>
+﻿<path d="@RadialSection.D" @ref=RadialSection.ElementReference @oncontextmenu:preventDefault="true" @oncontextmenu="() => Clicked()" @onclick="() => Clicked()"></path>
 <text x="@RadialSection.TextPosition.x" y="@RadialSection.TextPosition.y" dominant-baseline="middle" text-anchor="middle" style="pointer-events:none;font-weight:700;">
 	@RadialSection.Text
 </text>
@@ -6,4 +6,12 @@
 @code {
 	[Parameter]
 	public RadialSection RadialSection { get; set; }
+
+	[Parameter]
+	public RadialContextMenuRenderer RadialContextMenuRenderer { get; set; }
+
+	public async Task Clicked() {
+		await RadialContextMenuRenderer.Close();
+		RadialSection.OnClick.Invoke();
+	}
 }

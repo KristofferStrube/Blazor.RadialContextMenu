@@ -2,13 +2,18 @@
 
 @Clicked<br />
 <RadialContextMenuRenderer @ref=RadialContextMenuRenderer1 Options="Options1">
-	<div style="background-color:lightgreen;width:500px;height:300px;border-style:dashed;" @oncontextmenu:preventDefault="true" @oncontextmenu="RadialContextMenuRenderer1.OnContextClick">
+	<div style="background-color:lightgreen;width:500px;max-width:100%;height:200px;border-style:dashed;" @oncontextmenu:preventDefault="true" @oncontextmenu="RadialContextMenuRenderer1.OnContextClick">
 		3 menu items 
 	</div>
 </RadialContextMenuRenderer>
 <RadialContextMenuRenderer @ref=RadialContextMenuRenderer2 Options="Options2">
-	<div style="background-color:lightgreen;width:500px;height:300px;border-style:dashed;" @oncontextmenu:preventDefault="true" @oncontextmenu="RadialContextMenuRenderer2.OnContextClick">
+	<div style="background-color:lightgreen;width:500px;max-width:100%;height:200px;border-style:dashed;" @oncontextmenu:preventDefault="true" @oncontextmenu="RadialContextMenuRenderer2.OnContextClick">
 		4 menu items
+	</div>
+</RadialContextMenuRenderer>
+<RadialContextMenuRenderer @ref=RadialContextMenuRenderer3 Options="Options3">
+	<div style="background-color:lightgreen;width:500px;max-width:100%;height:200px;border-style:dashed;" @oncontextmenu:preventDefault="true" @oncontextmenu="RadialContextMenuRenderer3.OnContextClick">
+		5 menu items
 	</div>
 </RadialContextMenuRenderer>
 
@@ -19,9 +24,13 @@
 
 	protected List<(Action OnClick, string Text)> Options2 = new();
 
+	protected List<(Action OnClick, string Text)> Options3 = new();
+
 	protected RadialContextMenuRenderer RadialContextMenuRenderer1 { get; set; }
 
 	protected RadialContextMenuRenderer RadialContextMenuRenderer2 { get; set; }
+
+	protected RadialContextMenuRenderer RadialContextMenuRenderer3 { get; set; }
 
 	protected override void OnInitialized()
 	{
@@ -38,6 +47,15 @@
 			((Action)(() => {Clicked = "World 2";StateHasChanged();}), "2"),
 			((Action)(() => {Clicked = "World 3";StateHasChanged();}), "3"),
 			((Action)(() => {Clicked = "World 4";StateHasChanged();}), "4"),
+		};
+
+		Options3 = new List<(Action OnClick, string Text)>()
+		{
+			((Action)(() => {Clicked = "Wow 1";StateHasChanged();}), "😊"),
+			((Action)(() => {Clicked = "Wow 2";StateHasChanged();}), "😀"),
+			((Action)(() => {Clicked = "Wow 3";StateHasChanged();}), "😂"),
+			((Action)(() => {Clicked = "Wow 4";StateHasChanged();}), "😍"),
+			((Action)(() => {Clicked = "Wow 5";StateHasChanged();}), "🤗"),
 		};
 	}
 }

@@ -1,62 +1,9 @@
 ﻿@inject RadialContextMenuJSInterop RadialContextMenuJSInterop
 
 <svg style="@(Opened ? "" : "display:none;")position: absolute;left: @(Position.x-OuterRadius)px; top: @(Position.y-OuterRadius)px;width:@(OuterRadius*2);height:@(OuterRadius*2);">
-	@foreach(var section in ContextMenuElements)
+	@foreach(var section in ContextMenuSections)
 	{
-		<RadialSectionRenderer RadialSection=section></RadialSectionRenderer>
+		<RadialSectionRenderer RadialSection=section RadialContextMenuRenderer=this></RadialSectionRenderer>
 	}
 </svg>
 @ChildContent
-
-@code {
-	[Parameter]
-	public RenderFragment ChildContent { get; set; }
-
-	[Parameter]
-	public double InnerRadius { get; set; } = 20;
-
-	[Parameter]
-	public double OuterRadius { get; set; } = 80;
-
-	[Parameter]
-	public List<(Action OnClick, string Text)> Options { get; set; } = new();
-
-	protected List<RadialSection> ContextMenuElements { get; set; } = new();
-
-	protected bool Opened;
-
-	protected (double x, double y) Position { get; set; }
-
-	protected override async Task OnParametersSetAsync()
-	{
-		ContextMenuElements = Enumerable.Range(0, Options.Count).Select(i => new RadialSection() { OnClick = Options[i].OnClick, Text = Options[i].Text, InnerRadius = InnerRadius, OuterRadius = OuterRadius, Section = i, TotalSections = Options.Count }).ToList();
-		await RadialContextMenuJSInterop.Init(ContextMenuElements.Select(e => e.ElementReference).ToList(), this);
-	}
-
-@*	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		ContextMenuElements = Enumerable.Range(0, Options.Count).Select(i => new RadialSection() { OnClick = Options[i].OnClick, Text = Options[i].Text, InnerRadius = InnerRadius, OuterRadius = OuterRadius, Section = i, TotalSections = 3 }).ToList();
-		if (firstRender)
-		{
-			await RadialContextMenuJSInterop.Init(ContextMenuElements.Select(e => e.ElementReference).ToList(), this);
-		}
-	}*@
-
-	public async Task Open()
-	{
-		Opened = true;
-		StateHasChanged();
-	}
-
-	public async Task Close()
-	{
-		Opened = false;
-		StateHasChanged();
-	}
-
-	public async Task OnContextClick(MouseEventArgs args)
-	{
-		Position = (args.ClientX, args.ClientY);
-		await Open();
-	}
-}

@@ -31,18 +31,28 @@ namespace KristofferStrube.Blazor.RadialContextMenu
             ObjRef = DotNetObjectReference.Create(this);
         }
 
-        public async Task Init(List<ElementReference> ContextMenuElements, RadialContextMenuRenderer radialContextMenuRenderer)
+        protected async Task Init(RadialContextMenuRenderer radialContextMenuRenderer)
+        {
+            JSObjectReference = await ModuleTask.Value;
+            await JSObjectReference.InvokeVoidAsync("Init", ObjRef);
+        }
+
+        public async Task AddContextMenu(RadialContextMenuRenderer radialContextMenuRenderer)
         {
             if (JSObjectReference is null)
-            {
-                JSObjectReference = await ModuleTask.Value;
-                await JSObjectReference.InvokeVoidAsync("Init", ContextMenuElements, ObjRef);
-            }
+                await Init(radialContextMenuRenderer);
+            await JSObjectReference.InvokeVoidAsync("AddMenuElements", radialContextMenuRenderer.ElementSectionReferences);
             ContextMenues.Add(radialContextMenuRenderer);
         }
 
+        public async Task RemoveContextMenu(RadialContextMenuRenderer radialContextMenuRenderer)
+        {
+            await JSObjectReference.InvokeVoidAsync("RemoveMenuElements", radialContextMenuRenderer.ElementSectionReferences);
+            ContextMenues.Remove(radialContextMenuRenderer);
+        }
+
         [JSInvokable("Close")]
-        public async Task MouseUp()
+        public void Close()
         {
             Task.WaitAll(ContextMenues.Select(e => e.Close()).ToArray());
         }

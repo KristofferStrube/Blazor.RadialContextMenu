@@ -9,6 +9,12 @@ export function Init(ObjRef) {
             currentObjRef.invokeMethodAsync("Close");
         }
     });
+    document.addEventListener("contextmenu", function (e) {
+        const menuItemsIntersection = e.path.filter(value => currentContextMenuElements.includes(value));
+        if (menuItemsIntersection.length == 0) {
+            currentObjRef.invokeMethodAsync("Close");
+        }
+    })
 }
 
 export function AddMenuElements(ContextMenuElements) {

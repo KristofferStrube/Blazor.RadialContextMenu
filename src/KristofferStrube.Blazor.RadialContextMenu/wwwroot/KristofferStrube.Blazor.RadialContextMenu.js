@@ -9,12 +9,6 @@ export function Init(ObjRef) {
             currentObjRef.invokeMethodAsync("Close");
         }
     });
-    document.addEventListener("touchend", function (e) {
-        const menuItemsIntersection = e.path.filter(value => currentContextMenuElements.includes(value));
-        if (menuItemsIntersection.length == 0) {
-            currentObjRef.invokeMethodAsync("Close");
-        }
-    })
 }
 
 export function AddMenuElements(ContextMenuElements) {
